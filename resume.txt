@@ -1,0 +1,36 @@
+Austin Crinklaw
+(+1) 760-214-1126 | austincrinklaw@gmail.com | github.com/acrinklaw | linkedin.com/in/acrinklaw
+Summary
+Lead engineer with 7+ years bridging software development and bioinformatics in biotech R&D. Proven track record
+architecting full-stack platforms, building AI-driven discovery tools, and designing computational pipelines for thera-
+peutic development.
+Education
+UCSD | Bachelor of Science, Bioinformatics Graduated 2018
+Skills
+• Programming Languages: Python, TypeScript, C++, Rust
+• Full Stack: NextJS, React, FastAPI, SQLAlchemy, Pydantic, PostgreSQL
+• Bioinformatics: NGS (RNA-Seq, PacBio Long Read, Single-Cell), Computational Immunology, CRISPR/Cas9
+gRNA design, siRNA design
+• Other Tech: AWS (EC2, ECS, RDS, etc.), Docker, CI/CD, GNU/Linux
+Experience
+Empirico Inc | March 2023 - Present
+Lead R&D Systems Engineer January 2026 - Present
+Senior Bioinformatics Scientist January 2024 - December 2025
+Bioinformatics Scientist March 2023 - January 2024
+• Architected the company’s primary LIMS system (NextJS/React, FastAPI, PostgreSQL) serving 30 scientists,
+tracking mission-critical data across siRNA selection, synthesis chemistry, reagent inventory, and in-vivo studies
+• Led a team of 2 engineers, driving mentorship and cross-functional collaboration with wet lab researchers
+• Developed an agentic target discovery platform leveraging AI/LLMs to accelerate therapeutic research
+• Designed integrated data pipeline feeding experimental results into models to predict siRNA eﬀicacy
+• Established CI/CD pipelines, containerized deployments, and testing standards for team infrastructure
+Jumpcode Genomics |Research Associate III March 2022 - March 2023
+• Implemented pipelines (Python/Snakemake) to design CRISPR/Cas9 gRNA sequences; adopted across all R&D
+products
+• Overhauled AWS infrastructure to reduce compute costs by 50%; managed general administration and provisioning
+1859 Inc |Senior Associate Scientist September 2021 - March 2022
+• Developed automated NGS pipeline (Python/Nextflow) for DNA encoded libraries; created web apps (React, Flask,
+Celery) enabling scientists to trigger analyses and visualize results
+LJI, Peters Lab |Research Tech February 2018 - September 2021
+• Implemented and optimized a method for determining T-cell receptor similarity and epitope specificity; prototyped
+in Python, optimized in C++. Co-first author
+• Created Python package classifying protein sequences into TCR, Antibody, or MHC using Hidden Markov Model
