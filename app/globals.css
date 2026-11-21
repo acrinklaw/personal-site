@@ -44,15 +44,10 @@
   html {
     scroll-behavior: smooth;
   }
-  /* Section-by-section scrolling, on screens wide enough for the sticky header. */
+  /* Keep anchor jumps clear of the sticky header. */
   @media (min-width: 768px) {
     html {
-      scroll-snap-type: y mandatory;
       scroll-padding-top: var(--header-h);
-    }
-    /* Tall enough that the last section can reach the top with the footer below it. */
-    #skills {
-      min-height: calc(100svh - var(--header-h) - 5.5rem);
     }
   }
 
@@ -100,11 +95,6 @@
     }
   }
 
-  /* Each section is a stop: scrolling settles on its top edge. */
-  .snap-section {
-    scroll-snap-align: start;
-  }
-
   .nav-link {
     padding-block: 0.25rem;
     border-bottom: 2px solid transparent;
@@ -137,22 +127,25 @@
 
   /* The synthesizer: a dark process picture, as on the instrument's screen. */
   .synth-wrap {
-    max-width: max(34rem, calc((100svh - 11rem) * 2));
+    max-width: max(34rem, calc((100svh - 11rem) * 1.46));
   }
   .synth {
-    background: var(--plum);
-    border-radius: clamp(6px, 1.2vw, 16px);
-    box-shadow: inset 0 0 0 1px rgba(236, 234, 242, 0.14);
+    position: relative;
   }
   .synth svg {
     cursor: default;
     touch-action: pan-y;
   }
-  /* Valves and bottles fade between states instead of blinking. */
+  /* Each layer gets its own compositor surface, so redrawing the moving parts
+     never repaints the housing beneath them. */
+  .synth-layer {
+    will-change: transform;
+  }
+  /* Step lamps fade between states instead of blinking. */
   .synth-ease,
   .synth-ease * {
     transition-property: fill, stroke, fill-opacity, stroke-opacity, opacity;
-    transition-duration: 350ms;
+    transition-duration: 600ms;
     transition-timing-function: ease-out;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -166,8 +159,15 @@
     fill: #eceaf2;
     fill-opacity: 0.62;
   }
+  /* Captions that sit on the page around the instrument rather than on it. */
+  .synth-callout {
+    font-size: 13px;
+    fill: var(--ink);
+    fill-opacity: 0.75;
+  }
   /* Below this width the drawing is too small for its captions to be read. */
   @media (max-width: 640px) {
+    .synth-callout,
     .synth-label,
     .synth-fine {
       display: none;
@@ -187,6 +187,26 @@
     top: 0;
     bottom: 0;
     border-radius: 2px;
+  }
+  .track-tall {
+    height: 1.5rem;
+  }
+  /* Each job is a clickable span on the track; the unselected ones fade back. */
+  .track-job {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+  }
+  .track-job:hover,
+  .track-job:focus-visible {
+    opacity: 0.75;
+  }
+  .track-job.is-on {
+    opacity: 1;
+    transform: scaleY(1.25);
   }
 
   .well-bullet {
