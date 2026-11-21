@@ -1,421 +1,223 @@
-import MolecularViewer from "@/components/MolecularViewer";
-import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
-import Image from "next/image";
+import Experience, { type Job } from "@/components/Experience";
+import Hero from "@/components/Hero";
+
+const EMAIL = "austincrinklaw@gmail.com";
+
+/* Years as decimals: 2023.17 is March 2023. `to: null` means still running. */
+const JOBS: Job[] = [
+  {
+    company: "Empirico Inc",
+    dates: "March 2023 to present",
+    roles: [
+      { title: "Lead R&D Systems Engineer", from: 2026, to: null, dates: "Jan 2026 to present", color: "#35B779" },
+      { title: "Senior Bioinformatics Scientist", from: 2024, to: 2026, dates: "Jan 2024 to Dec 2025", color: "#1F9E89" },
+      { title: "Bioinformatics Scientist", from: 2023.17, to: 2024, dates: "Mar 2023 to Jan 2024", color: "#26828E" },
+    ],
+    bullets: [
+      "Architected the company's primary LIMS system (NextJS/React, FastAPI, PostgreSQL) serving 30 scientists, tracking mission-critical data across siRNA selection, synthesis chemistry, reagent inventory, and in-vivo studies",
+      "Led a team of 2 engineers, driving mentorship and cross-functional collaboration with wet lab researchers",
+      "Developed an agentic target discovery platform leveraging AI/LLMs to accelerate therapeutic research",
+      "Designed integrated data pipeline feeding experimental results into models to predict siRNA efficacy",
+      "Established CI/CD pipelines, containerized deployments, and testing standards for team infrastructure",
+    ],
+  },
+  {
+    company: "Jumpcode Genomics",
+    dates: "March 2022 to March 2023",
+    roles: [{ title: "Research Associate III", from: 2022.17, to: 2023.17, dates: "", color: "#31688E" }],
+    bullets: [
+      "Implemented pipelines (Python/Snakemake) to design CRISPR/Cas9 gRNA sequences; adopted across all R&D products",
+      "Overhauled AWS infrastructure to reduce compute costs by 50%; managed general administration and provisioning",
+    ],
+  },
+  {
+    company: "1859 Inc",
+    dates: "September 2021 to March 2022",
+    roles: [{ title: "Senior Associate Scientist", from: 2021.67, to: 2022.17, dates: "", color: "#3E4989" }],
+    bullets: [
+      "Developed automated NGS pipeline (Python/Nextflow) for DNA encoded libraries",
+      "Created web apps (React, Flask, Celery) enabling scientists to trigger analyses and visualize results",
+    ],
+  },
+  {
+    company: "La Jolla Institute for Immunology, Peters Lab",
+    dates: "February 2018 to September 2021",
+    roles: [{ title: "Research Tech", from: 2018.08, to: 2021.67, dates: "", color: "#482878" }],
+    bullets: [
+      "Implemented and optimized a method for determining T-cell receptor similarity and epitope specificity; prototyped in Python, optimized in C\u2060+\u2060+. Co-first author",
+      "Created Python package classifying protein sequences into TCR, Antibody, or MHC using Hidden Markov Models",
+    ],
+  },
+];
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      {/* Hero + Molecular Viewer */}
-      <section className="px-6 md:px-12 lg:px-24 max-w-5xl mx-auto pt-24 md:pt-32 pb-16">
-        <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
-          {/* Left: Hero content */}
-          <div className="flex-1 min-w-0">
-            <div className="animate-entrance" style={{ animationDelay: "0ms" }}>
-              <p className="font-mono text-sm text-cyan-400 tracking-widest uppercase mb-6">
-                Scientific Software Developer
-              </p>
-            </div>
+    <>
+      <Hero />
 
-            <div className="flex items-end gap-6 md:gap-8">
-              <h1
-                className="animate-entrance font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[0.9]"
-                style={{ animationDelay: "100ms" }}
-              >
-                Austin
-                <br />
-                Crinklaw
-              </h1>
-              <div
-                className="animate-entrance hidden md:block lg:hidden mb-2"
-                style={{ animationDelay: "250ms" }}
-              >
-                <Image
-                  src="/headshot.jpeg"
-                  alt="Austin Crinklaw"
-                  width={96}
-                  height={96}
-                  className="rounded-full ring-2 ring-gray-700"
-                />
-              </div>
-            </div>
+      <main>
+        <Section id="experience" title="Experience">
+          <Experience jobs={JOBS} />
+        </Section>
 
-            <div
-              className="animate-entrance mt-8"
-              style={{ animationDelay: "200ms" }}
+        <Section id="projects" title="Open source">
+          <div className="divide-y divide-ink/15 border-y border-ink/15">
+            <Project
+              name="TCRMatch"
+              tech="C++, computational immunology"
+              url="https://github.com/IEDB/TCRMatch"
+              description="Command-line tool for T-cell receptor specificity prediction. Scores how similar two receptors are and, from that, which epitopes a new receptor is likely to recognise. Co-first author publication."
             >
-              <div className="h-px bg-gray-700/50 w-full" />
-            </div>
-
-            <p
-              className="animate-entrance mt-8 text-lg md:text-xl text-gray-400 max-w-2xl font-body leading-relaxed"
-              style={{ animationDelay: "300ms" }}
+              <SequenceMatch a="CASSLGQAYEQYF" b="CASSLGQGYEQYF" />
+            </Project>
+            <Project
+              name="RustMelt5"
+              tech="Rust, bioinformatics"
+              url="https://github.com/acrinklaw/RustMelt5"
+              description="Fast library for calculating oligonucleotide melting temperatures. Built for performance-critical bioinformatics workflows."
             >
-              7+ years bridging software engineering and bioinformatics in biotech
-              R&D. Building full-stack platforms, AI-driven discovery tools, and
-              computational pipelines for therapeutic development.
-            </p>
-
-            <div
-              className="animate-entrance mt-8 flex items-center gap-6"
-              style={{ animationDelay: "400ms" }}
+              <MeltCurve />
+            </Project>
+            <Project
+              name="ARC"
+              tech="Python, bioinformatics"
+              url="https://github.com/IEDB/ARC"
+              description="Package for classifying protein sequences into TCR, antibody, or MHC categories using Hidden Markov Models."
             >
-              <a
-                href="https://github.com/acrinklaw"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-500 hover:text-cyan-400 transition-colors duration-200"
-                aria-label="GitHub"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href="https://linkedin.com/in/acrinklaw"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-500 hover:text-cyan-400 transition-colors duration-200"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="mailto:austincrinklaw@gmail.com"
-                className="text-gray-500 hover:text-cyan-400 transition-colors duration-200"
-                aria-label="Email"
-              >
-                <Mail size={20} />
-              </a>
-              <span className="text-gray-700 select-none">|</span>
-              <a
-                href="mailto:austincrinklaw@gmail.com"
-                className="font-mono text-xs text-gray-500 hover:text-gray-300 transition-colors duration-200"
-              >
-                austincrinklaw@gmail.com
-              </a>
-            </div>
+              <Classifier />
+            </Project>
           </div>
+        </Section>
 
-          {/* Right: Molecular Viewer */}
-          <div className="mt-12 lg:mt-0 lg:w-[420px] lg:shrink-0">
-            <div className="animate-entrance" style={{ animationDelay: "300ms" }}>
-              <MolecularViewer />
-              <p className="mt-3 font-mono text-[11px] text-gray-600 text-center">
-                RISC Complex · PDB 4W5N · drag to rotate
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      </main>
 
-      {/* Experience */}
-      <section className="px-6 md:px-12 lg:px-24 max-w-5xl mx-auto py-14">
-        <SectionHeader label="Experience" annotation="2018 → present" />
-
-        <div className="mt-10 space-y-12">
-          <ExperienceEntry
-            company="Empirico Inc"
-            period="March 2023 — Present"
-            roles={[
-              {
-                title: "Lead R&D Systems Engineer",
-                period: "Jan 2026 — Present",
-              },
-              {
-                title: "Senior Bioinformatics Scientist",
-                period: "Jan 2024 — Dec 2025",
-              },
-              {
-                title: "Bioinformatics Scientist",
-                period: "Mar 2023 — Jan 2024",
-              },
-            ]}
-            bullets={[
-              "Architected the company's primary LIMS system (NextJS/React, FastAPI, PostgreSQL) serving 30 scientists, tracking mission-critical data across siRNA selection, synthesis chemistry, reagent inventory, and in-vivo studies",
-              "Led a team of 2 engineers, driving mentorship and cross-functional collaboration with wet lab researchers",
-              "Developed an agentic target discovery platform leveraging AI/LLMs to accelerate therapeutic research",
-              "Designed integrated data pipeline feeding experimental results into models to predict siRNA efficacy",
-              "Established CI/CD pipelines, containerized deployments, and testing standards for team infrastructure",
-            ]}
-          />
-
-          <ExperienceEntry
-            company="Jumpcode Genomics"
-            period="March 2022 — March 2023"
-            roles={[{ title: "Research Associate III", period: "" }]}
-            bullets={[
-              "Implemented pipelines (Python/Snakemake) to design CRISPR/Cas9 gRNA sequences; adopted across all R&D products",
-              "Overhauled AWS infrastructure to reduce compute costs by 50%; managed general administration and provisioning",
-            ]}
-          />
-
-          <ExperienceEntry
-            company="1859 Inc"
-            period="September 2021 — March 2022"
-            roles={[{ title: "Senior Associate Scientist", period: "" }]}
-            bullets={[
-              "Developed automated NGS pipeline (Python/Nextflow) for DNA encoded libraries",
-              "Created web apps (React, Flask, Celery) enabling scientists to trigger analyses and visualize results",
-            ]}
-          />
-
-          <ExperienceEntry
-            company="LJI, Peters Lab"
-            period="February 2018 — September 2021"
-            roles={[{ title: "Research Tech", period: "" }]}
-            bullets={[
-              "Implemented and optimized a method for determining T-cell receptor similarity and epitope specificity; prototyped in Python, optimized in C++. Co-first author",
-              "Created Python package classifying protein sequences into TCR, Antibody, or MHC using Hidden Markov Models",
-            ]}
-          />
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section className="px-6 md:px-12 lg:px-24 max-w-5xl mx-auto py-14">
-        <SectionHeader label="Projects" annotation="open source" />
-
-        <div className="mt-10 space-y-2">
-          <ProjectEntry
-            name="TCRMatch"
-            tech="C++ · Computational Immunology"
-            description="CLI tool for T-cell receptor specificity prediction. Determines TCR similarity and epitope specificity using an optimized scoring algorithm. Co-first author publication."
-            url="https://github.com/IEDB/TCRMatch"
-          />
-          <ProjectEntry
-            name="RustMelt5"
-            tech="Rust · Bioinformatics"
-            description="Fast library for calculating oligonucleotide melting temperatures. Built for performance-critical bioinformatics workflows."
-            url="https://github.com/acrinklaw/RustMelt5"
-          />
-          <ProjectEntry
-            name="ARC"
-            tech="Python · Bioinformatics"
-            description="Package for classifying protein sequences into TCR, Antibody, or MHC categories using Hidden Markov Models."
-            url="https://github.com/IEDB/ARC"
-          />
-        </div>
-      </section>
-
-      {/* Skills */}
-      <section className="px-6 md:px-12 lg:px-24 max-w-5xl mx-auto py-14">
-        <SectionHeader label="Skills" annotation="domains" />
-
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
-          <SkillGroup
-            label="Languages"
-            skills={["Python", "TypeScript", "C++", "Rust"]}
-          />
-          <SkillGroup
-            label="Full Stack"
-            skills={[
-              "NextJS",
-              "React",
-              "FastAPI",
-              "SQLAlchemy",
-              "Pydantic",
-              "PostgreSQL",
-            ]}
-          />
-          <SkillGroup
-            label="Bioinformatics"
-            skills={[
-              "NGS",
-              "RNA-Seq",
-              "PacBio Long Read",
-              "Single-Cell",
-              "Computational Immunology",
-              "CRISPR/Cas9",
-              "siRNA Design",
-            ]}
-          />
-          <SkillGroup
-            label="Infrastructure"
-            skills={["AWS", "Docker", "CI/CD", "GNU/Linux"]}
-          />
-        </div>
-      </section>
-
-      {/* Education */}
-      <section className="px-6 md:px-12 lg:px-24 max-w-5xl mx-auto py-14">
-        <SectionHeader label="Education" annotation="2018" />
-        <div className="mt-8">
-          <p className="font-display text-xl text-white">
-            University of California, San Diego
-          </p>
-          <p className="text-gray-400 mt-1">
-            Bachelor of Science, Bioinformatics
-          </p>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="px-6 md:px-12 lg:px-24 max-w-5xl mx-auto py-14 border-t border-gray-700/40">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-          <div>
-            <p className="font-mono text-xs text-gray-600 tracking-wider mb-3">
-              // get in touch
-            </p>
-            <a
-              href="mailto:austincrinklaw@gmail.com"
-              className="font-display text-2xl md:text-3xl text-white hover:text-cyan-400 transition-colors duration-200"
-            >
-              austincrinklaw@gmail.com
-            </a>
-            <div className="mt-4 flex items-center gap-6">
-              <a
-                href="https://github.com/acrinklaw"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-500 hover:text-white transition-colors duration-200 text-sm font-mono"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://linkedin.com/in/acrinklaw"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-500 hover:text-white transition-colors duration-200 text-sm font-mono"
-              >
-                LinkedIn
-              </a>
-            </div>
-          </div>
-          <p className="text-sm text-gray-600 font-mono italic max-w-xs text-right hidden md:block">
+      <footer className="bg-plum text-bench">
+        <div className="mx-auto flex max-w-[1240px] flex-wrap items-baseline justify-between gap-x-8 gap-y-2 px-5 py-8 md:px-10">
+          <p className="italic text-bench/70">
             If you&apos;re reading this, send me a horror movie recommendation.
           </p>
+          <a className="text-link-dark font-display" href={`mailto:${EMAIL}`}>
+            {EMAIL}
+          </a>
         </div>
       </footer>
-    </main>
+    </>
   );
 }
 
-/* ---------- Sub-components ---------- */
-
-function SectionHeader({
-  label,
-  annotation,
-}: {
-  label: string;
-  annotation: string;
-}) {
+function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-baseline gap-4">
-      <h2 className="font-display text-3xl md:text-4xl font-bold text-white shrink-0">
-        {label}
-      </h2>
-      <div className="hidden sm:flex items-center gap-3 flex-1 min-w-0">
-        <div className="flex-1 h-px bg-gray-700/50" />
-        <span className="font-mono text-xs text-gray-600 tracking-wider shrink-0">
-          {annotation}
-        </span>
+    <section id={id} className="mx-auto max-w-[1240px] px-5 py-16 md:px-10 md:py-20">
+      <div className="grid gap-x-14 gap-y-8 lg:grid-cols-[13rem_1fr]">
+        <h2 className="font-display text-3xl font-semibold tracking-[-0.02em] lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
+          {title}
+        </h2>
+        <div className="min-w-0">{children}</div>
       </div>
-    </div>
+    </section>
   );
 }
 
-function ExperienceEntry({
-  company,
-  period,
-  roles,
-  bullets,
-}: {
-  company: string;
-  period: string;
-  roles: { title: string; period: string }[];
-  bullets: string[];
-}) {
-  return (
-    <div className="pl-6 md:pl-8 border-l border-gray-700/50">
-      <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-        <h3 className="font-display text-xl font-semibold text-white">
-          {company}
-        </h3>
-        <span className="font-mono text-xs text-gray-500 shrink-0">
-          {period}
-        </span>
-      </div>
-      <div className="mt-3 space-y-1">
-        {roles.map((role, i) => (
-          <div
-            key={i}
-            className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-3"
-          >
-            <span className="text-gray-300 text-sm">{role.title}</span>
-            {role.period && (
-              <span className="font-mono text-[11px] text-gray-600">
-                {role.period}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-      <ul className="mt-5 space-y-3">
-        {bullets.map((bullet, i) => (
-          <li
-            key={i}
-            className="text-gray-400 text-sm leading-relaxed pl-4 relative"
-          >
-            <span className="absolute left-0 text-gray-600 select-none">
-              ·
-            </span>
-            {bullet}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function ProjectEntry({
+function Project({
   name,
   tech,
-  description,
   url,
+  description,
+  children,
 }: {
   name: string;
   tech: string;
-  description: string;
   url: string;
+  description: string;
+  children: React.ReactNode;
 }) {
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block p-6 -mx-6 rounded-lg hover:bg-white/[0.03] transition-colors duration-200"
-    >
-      <div className="flex items-baseline justify-between gap-4">
-        <h3 className="font-display text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors duration-200">
-          {name}
+    <article className="grid items-center gap-x-12 gap-y-6 py-10 md:grid-cols-[19rem_1fr]">
+      <div className="flex h-32 items-center">{children}</div>
+      <div>
+        <h3 className="font-display text-2xl font-semibold tracking-tight">
+          <a className="text-link" href={url} target="_blank" rel="noopener noreferrer">
+            {name}
+          </a>
         </h3>
-        <ExternalLink
-          size={14}
-          className="text-gray-700 group-hover:text-cyan-400 transition-colors duration-200 shrink-0 translate-y-[1px]"
-        />
+        <p className="mt-1 font-display text-sm text-dim">{tech}</p>
+        <p className="prose-body mt-3 max-w-[60ch]">{description}</p>
       </div>
-      <p className="font-mono text-xs text-gray-500 mt-1">{tech}</p>
-      <p className="text-gray-400 text-sm mt-2 leading-relaxed">
-        {description}
-      </p>
-    </a>
+    </article>
   );
 }
 
-function SkillGroup({ label, skills }: { label: string; skills: string[] }) {
+/* ---------- Small figures, one per project ---------- */
+
+function SequenceMatch({ a, b }: { a: string; b: string }) {
   return (
-    <div>
-      <p className="font-mono text-xs text-gray-500 tracking-wider uppercase mb-3">
-        {label}
-      </p>
-      <div className="flex flex-wrap gap-2">
-        {skills.map((skill) => (
-          <span
-            key={skill}
-            className="px-3 py-1.5 text-sm text-gray-300 bg-white/[0.04] border border-gray-700/60 rounded font-mono"
-          >
-            {skill}
-          </span>
-        ))}
-      </div>
+    <div className="grid w-full font-display text-[0.95rem] font-semibold" style={{ gridTemplateColumns: `repeat(${a.length}, 1fr)` }} aria-hidden="true">
+      {a.split("").map((ch, i) => (
+        <span key={`a${i}`} className={`seq-cell ${ch !== b[i] ? "bg-hit" : ""}`}>{ch}</span>
+      ))}
+      {a.split("").map((ch, i) => (
+        <span key={`m${i}`} className="flex h-5 justify-center">
+          {ch === b[i] && <span className="h-full w-px bg-ink/40" />}
+        </span>
+      ))}
+      {b.split("").map((ch, i) => (
+        <span key={`b${i}`} className={`seq-cell ${ch !== a[i] ? "bg-hit" : ""}`}>{ch}</span>
+      ))}
     </div>
+  );
+}
+
+function MeltCurve() {
+  const pts = Array.from({ length: 53 }, (_, i) => {
+    const x = 20 + i * 5;
+    const y = 104 - 88 / (1 + Math.exp(-(x - 150) / 20));
+    return `${x},${y.toFixed(1)}`;
+  });
+  return (
+    <svg viewBox="0 0 300 128" className="w-full" aria-hidden="true">
+      <path d="M20 8V112H284" fill="none" stroke="#1E1030" strokeOpacity=".35" />
+      <path d="M150 112V60" stroke="#1E1030" strokeOpacity=".5" strokeDasharray="3 4" />
+      <polyline points={pts.join(" ")} fill="none" stroke="#14696A" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="150" cy="60" r="6" fill="#FDE725" stroke="#1E1030" strokeWidth="1.5" />
+      <text x="162" y="64" className="fig-text" fontWeight="600">Tm</text>
+      <text x="284" y="126" textAnchor="end" className="fig-text fig-muted">temperature</text>
+      <text x="28" y="16" className="fig-text fig-muted">fraction melted</text>
+    </svg>
+  );
+}
+
+function Classifier() {
+  const classes = [
+    { label: "TCR", y: 22 },
+    { label: "Antibody", y: 64 },
+    { label: "MHC", y: 106 },
+  ];
+  return (
+    <svg viewBox="0 0 300 128" className="w-full" aria-hidden="true">
+      <text x="0" y="68" className="fig-text" fontWeight="600">QVQLVESGG</text>
+      {classes.map((c) => (
+        <g key={c.label}>
+          <path
+            d={`M92 64C140 64 140 ${c.y} 186 ${c.y}`}
+            fill="none"
+            stroke={c.label === "Antibody" ? "#14696A" : "#1E1030"}
+            strokeOpacity={c.label === "Antibody" ? 1 : 0.3}
+            strokeWidth={c.label === "Antibody" ? 2.5 : 1}
+          />
+          <circle
+            cx="198"
+            cy={c.y}
+            r="9"
+            fill={c.label === "Antibody" ? "#FDE725" : "none"}
+            stroke="#1E1030"
+            strokeOpacity={c.label === "Antibody" ? 1 : 0.4}
+            strokeWidth="1.5"
+          />
+          <text x="216" y={c.y + 4} className={`fig-text ${c.label === "Antibody" ? "" : "fig-muted"}`} fontWeight={c.label === "Antibody" ? 600 : 400}>
+            {c.label}
+          </text>
+        </g>
+      ))}
+    </svg>
   );
 }

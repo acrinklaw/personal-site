@@ -1,29 +1,19 @@
 import type { Metadata } from "next";
-import { Outfit, JetBrains_Mono, DM_Sans } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
+const plex = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
   variable: "--font-display",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-body",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Austin Crinklaw",
   description:
-    "Lead engineer bridging software development and bioinformatics in biotech R&D.",
+    "Lead R&D systems engineer building lab data systems, AI discovery tools and pipelines for drug discovery.",
 };
 
 export default function RootLayout({
@@ -32,13 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${outfit.variable} ${jetbrainsMono.variable} ${dmSans.variable}`}
-    >
-      <body className="bg-[#13151a] text-gray-300 antialiased">
-        {children}
-      </body>
+    <html lang="en" className={plex.variable}>
+      <body className="bg-bench text-ink antialiased">{children}</body>
     </html>
   );
 }

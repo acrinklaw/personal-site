@@ -21,9 +21,14 @@ const config = {
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       colors: {
+        bench: "var(--bench)",
+        ink: "#1e1030",
+        plum: "var(--plum)",
+        teal: "var(--teal)",
+        hit: "var(--hit)",
+        dim: "var(--muted-ink)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
