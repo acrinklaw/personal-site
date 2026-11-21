@@ -4,25 +4,36 @@
 
 @layer base {
   :root {
-    --background: 228 14% 8%;
-    --foreground: 220 13% 82%;
-    --card: 228 14% 10%;
-    --card-foreground: 220 13% 82%;
-    --popover: 228 14% 10%;
-    --popover-foreground: 220 13% 82%;
-    --primary: 187 72% 81%;
-    --primary-foreground: 228 14% 8%;
-    --secondary: 220 10% 16%;
-    --secondary-foreground: 220 13% 82%;
-    --muted: 220 10% 16%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 220 10% 16%;
-    --accent-foreground: 220 13% 82%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 220 13% 82%;
-    --border: 220 10% 18%;
-    --input: 220 10% 18%;
-    --ring: 187 72% 81%;
+    /* Page palette: a pale bench, aubergine ink, and the viridis colormap. */
+    --bench: #eceaf2;
+    --ink: #1e1030;
+    --plum: #1a0e2b;
+    --muted-ink: #5c5470;
+    --teal: #14696a;
+    --hit: #fde725;
+    --font-body: var(--font-display);
+    --header-h: 4.125rem;
+
+    /* shadcn/ui tokens, matched to the palette above. */
+    --background: 255 24% 93%;
+    --foreground: 266 50% 13%;
+    --card: 255 24% 96%;
+    --card-foreground: 266 50% 13%;
+    --popover: 255 24% 96%;
+    --popover-foreground: 266 50% 13%;
+    --primary: 181 68% 25%;
+    --primary-foreground: 255 24% 96%;
+    --secondary: 255 18% 87%;
+    --secondary-foreground: 266 50% 13%;
+    --muted: 255 18% 87%;
+    --muted-foreground: 257 14% 38%;
+    --accent: 56 98% 57%;
+    --accent-foreground: 266 50% 13%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 255 24% 96%;
+    --border: 257 16% 80%;
+    --input: 257 16% 80%;
+    --ring: 181 68% 25%;
     --radius: 0.5rem;
   }
 
@@ -30,29 +41,189 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Section-by-section scrolling, on screens wide enough for the sticky header. */
+  @media (min-width: 768px) {
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-padding-top: var(--header-h);
+    }
+    /* Tall enough that the last section can reach the top with the footer below it. */
+    #skills {
+      min-height: calc(100svh - var(--header-h) - 5.5rem);
+    }
+  }
+
   body {
-    font-family: var(--font-body), system-ui, sans-serif;
+    font-family: var(--font-display), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background: rgba(34, 211, 238, 0.25);
-    color: #fff;
+    background: var(--hit);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  footer :focus-visible {
+    outline-color: var(--hit);
   }
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
+@layer components {
+  .prose-body {
+    font-size: 1.0625rem;
+    line-height: 1.6;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .prose-body.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .site-header {
+    background: color-mix(in srgb, var(--bench) 88%, transparent);
+    backdrop-filter: blur(10px);
+  }
+  @media (min-width: 768px) {
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+  }
+
+  /* Each section is a stop: scrolling settles on its top edge. */
+  .snap-section {
+    scroll-snap-align: start;
+  }
+
+  .nav-link {
+    padding-block: 0.25rem;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    border-bottom-color: var(--ink);
+  }
+
+  .text-link {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--teal) 45%, transparent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+  }
+  .text-link:hover {
+    color: var(--teal);
+    text-decoration-color: var(--teal);
+  }
+  .text-link-dark {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--bench) 40%, transparent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+  }
+  .text-link-dark:hover {
+    color: var(--hit);
+    text-decoration-color: var(--hit);
+  }
+
+  /* The synthesizer: a dark process picture, as on the instrument's screen. */
+  .synth-wrap {
+    max-width: max(34rem, calc((100svh - 11rem) * 2));
+  }
+  .synth {
+    background: var(--plum);
+    border-radius: clamp(6px, 1.2vw, 16px);
+    box-shadow: inset 0 0 0 1px rgba(236, 234, 242, 0.14);
+  }
+  .synth svg {
+    cursor: default;
+    touch-action: pan-y;
+  }
+  /* Valves and bottles fade between states instead of blinking. */
+  .synth-ease,
+  .synth-ease * {
+    transition-property: fill, stroke, fill-opacity, stroke-opacity, opacity;
+    transition-duration: 350ms;
+    transition-timing-function: ease-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .synth-ease,
+    .synth-ease * {
+      transition: none;
+    }
+  }
+  .synth-label {
+    font-size: 13px;
+    fill: #eceaf2;
+    fill-opacity: 0.62;
+  }
+  /* Below this width the drawing is too small for its captions to be read. */
+  @media (max-width: 640px) {
+    .synth-label,
+    .synth-fine {
+      display: none;
+    }
+  }
+
+  /* Experience: every job sits on the same 2018-2027 axis, one tick per year. */
+  .track {
+    position: relative;
+    height: 0.75rem;
+    background-color: color-mix(in srgb, var(--ink) 7%, transparent);
+    background-image: linear-gradient(90deg, color-mix(in srgb, var(--ink) 22%, transparent) 1px, transparent 1px);
+    background-size: calc(100% / 9) 100%;
+  }
+  .track-seg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 2px;
+  }
+
+  .well-bullet {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  .well-bullet::before {
+    content: "";
+    position: absolute;
+    left: 0.1rem;
+    top: 0.62em;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--ink) 45%, transparent);
+  }
+
+  .seq-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+
+  .fig-text {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: 12px;
+    fill: var(--ink);
+  }
+  .fig-muted {
+    fill: var(--muted-ink);
   }
 }
 
-.animate-entrance {
-  animation: fade-in-up 0.8s ease-out both;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
